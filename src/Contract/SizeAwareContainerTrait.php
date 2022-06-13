@@ -24,7 +24,7 @@ trait SizeAwareContainerTrait
      */
     public function empty(): bool
     {
-        return ($this->size == 0);
+        return ($this->size === 0);
     }
 
     /**
