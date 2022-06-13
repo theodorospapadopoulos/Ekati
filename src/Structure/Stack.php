@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Ekati\Structure;
 
 use Ekati\Exception\UnderflowException;
+use Ekati\Exception\OverflowException;
+use Ekati\Contract\CapacityAwareContainerTrait;
 
 /**
  * A Stack (LIFO) implementation
@@ -14,14 +16,13 @@ use Ekati\Exception\UnderflowException;
  */
 class Stack
 {
-    /**
-     * The number of elements in the stack
-     * @var int
-     */
-    private int $size;
+    use CapacityAwareContainerTrait;
+
+    public const DEFAULT_CAPACITY = 1024;
 
     /**
-     * THe container that holds the elements
+     * The container that holds the elements
+     *
      * @phpstan-var array<T>
      * @var array[]
      */
@@ -30,46 +31,28 @@ class Stack
     /**
      * Stack constructor
      */
-    public function __construct()
+    public function __construct(int $capacity = 0)
     {
         $this->size = 0;
+        $this->capacity = ($capacity > 0) ? $capacity : static::DEFAULT_CAPACITY;
         $this->container = [];
     }
 
     /**
-     * Checks if the the stack has no elements
+     * Add a new element at the top of the stack
      *
-     * @return bool, True if stack is empty
+     * @param mixed $element
+     * @phpstan-param T $element
+     * @return void
      */
-    public function empty(): bool
+    public function push(mixed $element): void
     {
-        return ($this->size == 0);
-    }
-
-    /**
-     * The number of elements in the stack
-     *
-     * @return int
-     */
-    public function size(): int
-    {
-        return $this->size;
-    }
-
-    /**
-     * Returns the last inserted element without removing it
-     *
-     * @return mixed
-     * @phpstan-return T
-     * @throws UnderflowException
-     */
-    public function top(): mixed
-    {
-        if ($this->size == 0) {
-            throw new UnderflowException();
+        if ($this->size === $this->capacity) {
+            throw new OverflowException();
         }
 
-        return $this->container[$this->size - 1];
+        $this->container[] = $element;
+        $this->size++;
     }
 
     /**
@@ -92,15 +75,18 @@ class Stack
     }
 
     /**
-     * Add a new element at the top of the stack
+     * Returns the last inserted element without removing it
      *
-     * @param mixed $element
-     * @phpstan-param T $element
-     * @return void
+     * @return mixed
+     * @phpstan-return T
+     * @throws UnderflowException
      */
-    public function push(mixed $element): void
+    public function top(): mixed
     {
-        $this->container[] = $element;
-        $this->size++;
+        if ($this->size == 0) {
+            throw new UnderflowException();
+        }
+
+        return $this->container[$this->size - 1];
     }
 }
