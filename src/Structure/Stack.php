@@ -18,8 +18,6 @@ class Stack
 {
     use CapacityAwareContainerTrait;
 
-    public const DEFAULT_CAPACITY = 1024;
-
     /**
      * The container that holds the elements
      *
@@ -34,7 +32,7 @@ class Stack
     public function __construct(int $capacity = 0)
     {
         $this->size = 0;
-        $this->capacity = ($capacity > 0) ? $capacity : static::DEFAULT_CAPACITY;
+        $this->capacity = ($capacity > 0) ? $capacity : 0;
         $this->container = [];
     }
 
@@ -47,7 +45,7 @@ class Stack
      */
     public function push(mixed $element): void
     {
-        if ($this->size === $this->capacity) {
+        if ($this->full()) {
             throw new OverflowException();
         }
 

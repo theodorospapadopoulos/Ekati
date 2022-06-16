@@ -83,4 +83,25 @@ class StackTest extends TestCase
         $this->assertSame(15, $this->stack->top());
         $this->assertSame(1, $this->stack->size());
     }
+
+    public function testStackWithUnlimitedCapacity(): void
+    {
+        $stack = new Stack();
+        $stack->push(3);
+        $this->assertSame(3, $stack->top());
+        $this->assertSame(1, $stack->size());
+
+        $stack->push(5);
+        $this->assertSame(5, $stack->top());
+        $this->assertSame(2, $stack->size());
+        $this->assertFalse($stack->full());
+        
+        $this->assertSame(5, $stack->pop());
+        $this->assertSame(1, $stack->size());
+        $this->assertFalse($stack->empty());
+
+        $this->assertSame(3, $stack->pop());
+        $this->assertSame(0, $stack->size());
+        $this->assertTrue($stack->empty());
+    }
 }
