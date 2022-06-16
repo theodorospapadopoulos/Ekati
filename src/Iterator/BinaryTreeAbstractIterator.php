@@ -127,6 +127,11 @@ abstract class BinaryTreeAbstractIterator implements BinaryTreeIterator
         return $node;
     }
 
+    /**
+     * Check for empty stack
+     *
+     * @return bool
+     */
     protected function stackEmpty(): bool
     {
         return ($this->stackSize === 0);
