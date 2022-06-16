@@ -39,6 +39,6 @@ trait CapacityAwareContainerTrait
      */
     public function full(): bool
     {
-        return ($this->size === $this->capacity);
+        return ($this->capacity > 0 && $this->size === $this->capacity);
     }
 }
