@@ -49,8 +49,7 @@ class Stack
             throw new OverflowException();
         }
 
-        $this->container[] = $element;
-        $this->size++;
+        $this->container[$this->size++] = $element;
     }
 
     /**
