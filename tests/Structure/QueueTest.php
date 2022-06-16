@@ -136,4 +136,36 @@ class QueueTest extends TestCase
         $this->assertSame(7, $this->queue->back());
         $this->assertSame(1, $this->queue->size());
     }
+
+    public function testQueueWithUnlimitedSize(): void
+    {
+        $queue = new Queue();
+        $queue->push(1);
+        $this->assertSame(1, $queue->front());
+        $this->assertSame(1, $queue->back());
+        
+        $queue->push(2);
+        $this->assertSame(1, $queue->front());
+        $this->assertSame(2, $queue->back());
+        $this->assertFalse($queue->full());
+
+        $this->assertSame(1, $queue->pop());
+        $this->assertSame(2, $queue->front());
+        $this->assertSame(2, $queue->back());
+        $this->assertSame(1, $queue->size());
+        
+        $queue->push(3);
+        $this->assertSame(2, $queue->front());
+        $this->assertSame(3, $queue->back());
+        $this->assertSame(2, $queue->size());
+        $this->assertFalse($queue->full());
+
+        $this->assertSame(2, $queue->pop());
+        $this->assertSame(3, $queue->pop());
+        $this->assertTrue($queue->empty());
+
+        $queue->push(1);
+        $queue->push(2);
+        $this->assertFalse($queue->full());
+    }
 }

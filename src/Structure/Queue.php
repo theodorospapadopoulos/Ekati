@@ -20,8 +20,6 @@ class Queue
 {
     use CapacityAwareContainerTrait;
 
-    public const DEFAULT_CAPACITY = 1024;
-
     /**
      * The container that holds the elements
      *
@@ -50,7 +48,7 @@ class Queue
     public function __construct(int $capacity = 0)
     {
         $this->size = 0;
-        $this->capacity = ($capacity > 0) ? $capacity : static::DEFAULT_CAPACITY;
+        $this->capacity = ($capacity > 0) ? $capacity : 0;
         $this->container = [];
         $this->head = 0;
         $this->tail = -1;
@@ -66,11 +64,15 @@ class Queue
      */
     public function push(mixed $element): void
     {
-        if ($this->size === $this->capacity) {
+        if ($this->full()) {
             throw new OverflowException();
         }
 
-        $this->tail = ($this->tail + 1) % $this->capacity;
+        $this->tail++;
+        if ($this->capacity > 0) {
+            $this->tail %= $this->capacity;
+        }
+
         $this->container[$this->tail] = $element;
         $this->size++;
     }
@@ -92,7 +94,10 @@ class Queue
         $this->size--;
 
         if ($this->size > 0) {
-            $this->head = ($this->head + 1) % $this->capacity;
+            $this->head++;
+            if ($this->capacity > 0) {
+                $this->head %= $this->capacity;
+            }
             return $element;
         }
 
