@@ -37,7 +37,10 @@ class Stack
     }
 
     /**
-     * Add a new element at the top of the stack
+     * Add a new element at the top of the stack.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the full() function if the capacity
+     * limit is reached (unless capacity is zero, so no limit exists).
      *
      * @param mixed $element
      * @phpstan-param T $element
@@ -45,26 +48,21 @@ class Stack
      */
     public function push(mixed $element): void
     {
-        if ($this->full()) {
-            throw new OverflowException();
-        }
-
         $this->container[$this->size++] = $element;
     }
 
     /**
-     * Removes and returns the last inserted element from the stack
+     * Removes and returns the last inserted element from the stack.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the empty() function for the
+     * existence of any element in the stack. The opposite leads
+     * to undefined behavior.
      *
      * @return mixed
      * @phpstan-return T
-     * @throws UnderflowException
      */
     public function pop(): mixed
     {
-        if ($this->size == 0) {
-            throw new UnderflowException();
-        }
-
         $element = $this->container[--$this->size];
         unset($this->container[$this->size]);
 
@@ -72,18 +70,17 @@ class Stack
     }
 
     /**
-     * Returns the last inserted element without removing it
+     * Returns the last inserted element without removing it.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the empty() function for the
+     * existence of any element in the stack. The opposite leads
+     * to undefined behavior.
      *
      * @return mixed
      * @phpstan-return T
-     * @throws UnderflowException
      */
     public function top(): mixed
     {
-        if ($this->size == 0) {
-            throw new UnderflowException();
-        }
-
         return $this->container[$this->size - 1];
     }
 }

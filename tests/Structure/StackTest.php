@@ -37,27 +37,6 @@ class StackTest extends TestCase
         $this->assertSame(self::CAPACITY, $this->stack->capacity());
     }
 
-    public function testTopThrowsExceptionOnEmptyStack(): void
-    {
-        $this->expectException(UnderflowException::class);
-        $this->stack->top();
-    }
-
-    public function testPopThrowsExceptionOnEmptyStack(): void
-    {
-        $this->expectException(UnderflowException::class);
-        $this->stack->pop();
-    }
-    
-    public function testPushThrowsExceptionOnFullStack(): void
-    {
-        $this->stack->push(1);
-        $this->stack->push(2);
-        
-        $this->expectException(OverflowException::class);
-        $this->stack->push(10);
-    }
-
     public function testPushAndPop(): void
     {
         $this->stack->push(3);
