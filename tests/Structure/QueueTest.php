@@ -38,34 +38,6 @@ class QueueTest extends TestCase
         $this->assertSame(self::CAPACITY, $this->queue->capacity());
     }
 
-    public function testFrontThrowsOnEmptyQueue(): void
-    {
-        $this->expectException(UnderflowException::class);
-        $this->queue->front();
-    }
-
-    public function testBackThrowsOnEmptyQueue(): void
-    {
-        $this->expectException(UnderflowException::class);
-        $this->queue->back();
-    }
-
-    public function testPopThrowsOnEmptyQueue(): void
-    {
-        $this->expectException(UnderflowException::class);
-        $this->queue->pop();
-    }
-
-    public function testPushThrowsOnFullQueue(): void
-    {
-        $this->queue->push(1);
-        $this->queue->push(2);
-        $this->assertTrue($this->queue->full());
-        
-        $this->expectException(OverflowException::class);
-        $this->queue->push(3);
-    }
-
     public function testPushAndPopLinear(): void
     {
         // Linear push and pop

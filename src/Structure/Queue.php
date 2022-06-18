@@ -55,19 +55,17 @@ class Queue
     }
 
     /**
-     * Adds an element to the end of the queue
+     * Adds an element to the end of the queue.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the full() function if the capacity
+     * limit is reached (unless capacity is zero, so no limit exists).
      *
      * @param mixed $element
      * @phpstan-param T $element
      * @return void
-     * @throws OverflowException
      */
     public function push(mixed $element): void
     {
-        if ($this->full()) {
-            throw new OverflowException();
-        }
-
         $this->tail++;
         if ($this->capacity > 0) {
             $this->tail %= $this->capacity;
@@ -78,18 +76,17 @@ class Queue
     }
 
     /**
-     * Removes an element from the head of the queue and returns it
+     * Removes an element from the head of the queue and returns it.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the empty() function for the
+     * existence of any element in the queue. The opposite leads
+     * to undefined behavior.
      *
      * @return mixed
      * @phpstan-return T
-     * @throws UnderflowException
      */
     public function pop(): mixed
     {
-        if ($this->size === 0) {
-            throw new UnderflowException();
-        }
-
         $element = $this->container[$this->head];
         $this->size--;
 
@@ -108,7 +105,11 @@ class Queue
     }
 
     /**
-     * Get the front (head) element of the queue
+     * Get the front (head) element of the queue.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the empty() function for the
+     * existence of any element in the queue. The opposite leads
+     * to undefined behavior.
      *
      * @return mixed
      * @phpstan-return T
@@ -116,15 +117,15 @@ class Queue
      */
     public function front(): mixed
     {
-        if ($this->size === 0) {
-            throw new UnderflowException();
-        }
-
         return $this->container[$this->head];
     }
 
     /**
-     * Get the back (rear) element of the queue
+     * Get the back (rear) element of the queue.
+     * The function is intentionally unsafe for performance reasons.
+     * Before using it check with the empty() function for the
+     * existence of any element in the queue. The opposite leads
+     * to undefined behavior.
      *
      * @return mixed
      * @phpstan-return T
@@ -132,10 +133,6 @@ class Queue
      */
     public function back(): mixed
     {
-        if ($this->size === 0) {
-            throw new UnderflowException();
-        }
-
         return $this->container[$this->tail];
     }
 }
