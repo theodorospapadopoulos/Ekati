@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Ekati\Structure\BinaryTreeNode;
 use Ekati\Iterator\BinaryTreePreOrderIterator;
 use Ekati\Iterator\BinaryTreeInOrderIterator;
+use Ekati\Iterator\BinaryTreePostOrderIterator;
 
 /**
  * Tests for the Binary Tree Node
@@ -70,6 +71,28 @@ class BinaryTreeNodeTest extends TestCase
     {
         $iterator = new BinaryTreeInOrderIterator($this->tree);
         $expected = [4, 2, 7, 5, 8, 1, 9, 6, 10, 3];
+
+        // Use PHP iterator traversal
+        $elements = [];
+        foreach ($iterator as $data) {
+            $elements[] = $data;
+        }
+
+        $this->assertEquals($expected, $elements);
+
+        // Use direct traversal function (this is at least twice as fast)
+        $elements = [];
+        $iterator->traverse(function($data) use (&$elements) {
+            $elements[] = $data;
+        });
+
+        $this->assertEquals($expected, $elements);
+    }
+
+    public function testPostOrderTraversal(): void
+    {
+        $iterator = new BinaryTreePostOrderIterator($this->tree);
+        $expected = [4, 7, 8, 5, 2, 9, 10, 6, 3, 1];
 
         // Use PHP iterator traversal
         $elements = [];
