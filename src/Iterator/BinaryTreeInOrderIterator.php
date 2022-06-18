@@ -1,6 +1,6 @@
 <?php
 
-declare(strct_types=1);
+declare(strict_types=1);
 
 namespace Ekati\Iterator;
 
@@ -54,16 +54,16 @@ class BinaryTreeInOrderIterator extends BinaryTreeAbstractIterator
         }
 
         while ($this->current !== null) {
-            $this->stackPush($this->current);
-            $this->current = $this->current?->left();
+            $this->stack->push($this->current);
+            $this->current = $this->current->left();
         }
 
-        if ($this->stackEmpty()) {
+        if ($this->stack->empty()) {
             $this->current = null;
             return;
         }
 
-        $this->current = $this->stackPop();
+        $this->current = $this->stack->pop();
         $this->justPopped = true;
     }
 
@@ -80,15 +80,15 @@ class BinaryTreeInOrderIterator extends BinaryTreeAbstractIterator
 
         while (1) {
             while ($this->current !== null) {
-                $this->stackPush($this->current);
-                $this->current = $this->current?->left();
+                $this->stack->push($this->current);
+                $this->current = $this->current->left();
             }
 
-            if ($this->stackEmpty()) {
+            if ($this->stack->empty()) {
                 break;
             }
 
-            $this->current = $this->stackPop();
+            $this->current = $this->stack->pop();
             $closure($this->current->data());
             $this->current = $this->current->right();
         }
@@ -102,11 +102,11 @@ class BinaryTreeInOrderIterator extends BinaryTreeAbstractIterator
     private function traverseLeftToEnd(): void
     {
         while ($this->current !== null) {
-            $this->stackPush($this->current);
-            $this->current = $this->current?->left();
+            $this->stack->push($this->current);
+            $this->current = $this->current->left();
         }
 
-        $this->current = $this->stackPop();
+        $this->current = $this->stack->pop();
         $this->justPopped = true;
     }
 }

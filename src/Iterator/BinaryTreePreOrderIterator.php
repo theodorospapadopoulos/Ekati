@@ -1,6 +1,6 @@
 <?php
 
-declare(strct_types=1);
+declare(strict_types=1);
 
 namespace Ekati\Iterator;
 
@@ -24,22 +24,22 @@ class BinaryTreePreOrderIterator extends BinaryTreeAbstractIterator
     public function next(): void
     {
         if ($this->current !== null) {
-            $this->stackPush($this->current);
-            $this->current = $this->current?->left();
+            $this->stack->push($this->current);
+            $this->current = $this->current->left();
 
             if ($this->current !== null) {
                 return;
             }
         }
 
-        if ($this->stackEmpty()) {
+        if ($this->stack->empty()) {
             $this->current = null;
             return;
         }
 
         do {
-            $this->current = $this->stackPop()->right();
-        } while ($this->current === null && !$this->stackEmpty());
+            $this->current = $this->stack->pop()->right();
+        } while ($this->current === null && $this->stack->empty() === false);
     }
 
     /**
@@ -56,15 +56,15 @@ class BinaryTreePreOrderIterator extends BinaryTreeAbstractIterator
         while (1) {
             while ($this->current !== null) {
                 $closure($this->current->data());
-                $this->stackPush($this->current);
-                $this->current = $this->current?->left();
+                $this->stack->push($this->current);
+                $this->current = $this->current->left();
             }
 
-            if ($this->stackEmpty()) {
+            if ($this->stack->empty()) {
                 break;
             }
 
-            $this->current = $this->stackPop()->right();
+            $this->current = $this->stack->pop()->right();
         }
     }
 }
