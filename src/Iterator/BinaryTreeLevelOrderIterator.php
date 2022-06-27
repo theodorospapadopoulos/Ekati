@@ -65,6 +65,7 @@ class BinaryTreeLevelOrderIterator extends BinaryTreeAbstractIterator
      * and apply a function to its data.
      *
      * @param \Closure $closure a function to apply to the tree's elements
+     * @phpstan-param \Closure(BinaryTreeNode<T>):bool $closure
      * @return void
      */
     public function traverse(\Closure $closure): void
@@ -75,7 +76,9 @@ class BinaryTreeLevelOrderIterator extends BinaryTreeAbstractIterator
 
         while (!$this->queue->empty()) {
             $this->current = $this->queue->pop();
-            $closure($this->current->data());
+            if (!$closure($this->current)) {
+                return;
+            }
 
             if ($this->current->left() !== null) {
                 $this->queue->push($this->current->left());

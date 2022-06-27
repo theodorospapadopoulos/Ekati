@@ -60,16 +60,17 @@ class BinaryTreeNodeTest extends TestCase
 
         // Use PHP iterator traversal
         $elements = [];
-        foreach ($iterator as $data) {
-            $elements[] = $data;
+        foreach ($iterator as $node) {
+            $elements[] = $node->data();
         }
 
         $this->assertEquals($expected, $elements);
 
         // Use direct traversal function (this is at least twice as fast)
         $elements = [];
-        $iterator->traverse(function($data) use (&$elements) {
-            $elements[] = $data;
+        $iterator->traverse(function($node) use (&$elements) {
+            $elements[] = $node->data();
+            return true;
         });
 
         $this->assertEquals($expected, $elements);
@@ -82,16 +83,17 @@ class BinaryTreeNodeTest extends TestCase
 
         // Use PHP iterator traversal
         $elements = [];
-        foreach ($iterator as $data) {
-            $elements[] = $data;
+        foreach ($iterator as $node) {
+            $elements[] = $node->data();
         }
 
         $this->assertEquals($expected, $elements);
 
         // Use direct traversal function (this is at least twice as fast)
         $elements = [];
-        $iterator->traverse(function($data) use (&$elements) {
-            $elements[] = $data;
+        $iterator->traverse(function($node) use (&$elements) {
+            $elements[] = $node->data();
+            return true;
         });
 
         $this->assertEquals($expected, $elements);
@@ -104,16 +106,17 @@ class BinaryTreeNodeTest extends TestCase
 
         // Use PHP iterator traversal
         $elements = [];
-        foreach ($iterator as $data) {
-            $elements[] = $data;
+        foreach ($iterator as $node) {
+            $elements[] = $node->data();
         }
 
         $this->assertEquals($expected, $elements);
 
         // Use direct traversal function (this is at least twice as fast)
         $elements = [];
-        $iterator->traverse(function($data) use (&$elements) {
-            $elements[] = $data;
+        $iterator->traverse(function($node) use (&$elements) {
+            $elements[] = $node->data();
+            return true;
         });
 
         $this->assertEquals($expected, $elements);
@@ -126,16 +129,17 @@ class BinaryTreeNodeTest extends TestCase
 
         // Use PHP iterator traversal
         $elements = [];
-        foreach ($iterator as $data) {
-            $elements[] = $data;
+        foreach ($iterator as $node) {
+            $elements[] = $node->data();
         }
 
         $this->assertEquals($expected, $elements);
 
         // Use direct traversal function (this is at least twice as fast)
         $elements = [];
-        $iterator->traverse(function($data) use (&$elements) {
-            $elements[] = $data;
+        $iterator->traverse(function($node) use (&$elements) {
+            $elements[] = $node->data();
+            return true;
         });
 
         $this->assertEquals($expected, $elements);

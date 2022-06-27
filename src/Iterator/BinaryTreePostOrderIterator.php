@@ -84,6 +84,7 @@ class BinaryTreePostOrderIterator extends BinaryTreeAbstractIterator
      * and apply a function to its data.
      *
      * @param \Closure $closure a function to apply to the tree's elements
+     * @phpstan-param \Closure(BinaryTreeNode<T>):bool $closure
      * @return void
      */
     public function traverse(\Closure $closure): void
@@ -101,7 +102,9 @@ class BinaryTreePostOrderIterator extends BinaryTreeAbstractIterator
                 $this->current = $this->stack->top();
 
                 if ($this->current->right() === null || $this->current->right() === $this->previous) {
-                    $closure($this->current->data());
+                    if (!$closure($this->current)) {
+                        return;
+                    }
                     $this->stack->pop();
                     $this->previous = $this->current;
                     $this->current = null;

@@ -82,14 +82,19 @@ abstract class BinaryTreeAbstractIterator implements BinaryTreeIterator
 
     /**
      *
-     * @phpstan-return T|null
-     * @return mixed
+     * @phpstan-return BinaryTreeNode<T>|null
+     * @return BinaryTreeNode|null
      */
-    public function current(): mixed
+    public function current(): ?BinaryTreeNode
     {
-        return $this->current?->data() ?? null;
+        return $this->current;
     }
 
     abstract public function next(): void;
+
+    /**
+     * @param \Closure $closure
+     * @phpstan-param \Closure(BinaryTreeNode<T>):bool $closure
+     */
     abstract public function traverse(\Closure $closure): void;
 }
