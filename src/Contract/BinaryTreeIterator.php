@@ -22,4 +22,12 @@ interface BinaryTreeIterator extends \Iterator
      * @return void
      */
     public function traverse(\Closure $closure): void;
+
+    /**
+     * Create an array representation of the tree
+     *
+     * @return array
+     * @phpstan-return array<T>
+     */
+    public function toArray(): array;
 }

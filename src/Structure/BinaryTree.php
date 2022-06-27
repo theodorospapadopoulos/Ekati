@@ -9,6 +9,7 @@ use Ekati\Iterator\BinaryTreeLevelOrderIterator;
 use Ekati\Contract\MinInterface;
 use Ekati\Contract\MaxInterface;
 use Ekati\Contract\FinderInterface;
+use Ekati\Contract\InserterInterface;
 
 /**
  * Implementation of various algorithms concerning a BinaryTree
@@ -17,9 +18,14 @@ use Ekati\Contract\FinderInterface;
  * @implements MinInterface<T>
  * @implements MaxInterface<T>
  * @implements FinderInterface<T>
+ * @implements InserterInterface<T>
  * @author Theodorros Papadopoulos
  */
-class BinaryTree implements MinInterface, MaxInterface, FinderInterface
+class BinaryTree implements
+    MinInterface,
+    MaxInterface,
+    FinderInterface,
+    InserterInterface
 {
     /**
      * The root node of the tree
@@ -50,6 +56,17 @@ class BinaryTree implements MinInterface, MaxInterface, FinderInterface
     public function attach(?BinaryTreeNode $root = null): void
     {
         $this->root = $root;
+    }
+
+    /**
+     * Fetch the tree's root node
+     *
+     * @phpstan-return BinaryTreeNode<T>|null
+     * @return BinaryTreeNode|null
+     */
+    public function root(): ?BinaryTreeNode
+    {
+        return $this->root;
     }
 
     /**
@@ -160,5 +177,41 @@ class BinaryTree implements MinInterface, MaxInterface, FinderInterface
         });
 
         return $found;
+    }
+
+    /**
+     *
+     * @param mixed $value the value to insert
+     * @phpstan-param T $value
+     * @return BinaryTreeNode
+     * @phpstan-return BinaryTreeNode<T>
+     */
+    public function insert(mixed $value): BinaryTreeNode
+    {
+        if ($this->root === null) {
+            $node = new BinaryTreeNode($value);
+            $this->root = $node;
+            return $node;
+        }
+
+        $newNode = $this->root;
+        $iterator = new BinaryTreeLevelOrderIterator($this->root);
+        $iterator->traverse(function (BinaryTreeNode $node) use ($value, &$newNode) {
+            if ($node->left() === null) {
+                $newNode = new BinaryTreeNode($value);
+                $node->setLeft($newNode);
+                return false;
+            }
+
+            if ($node->right() === null) {
+                $newNode = new BinaryTreeNode($value);
+                $node->setRight($newNode);
+                return false;
+            }
+
+            return true;
+        });
+
+        return $newNode;
     }
 }

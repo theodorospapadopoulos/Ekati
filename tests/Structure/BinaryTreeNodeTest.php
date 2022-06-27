@@ -172,4 +172,28 @@ class BinaryTreeNodeTest extends TestCase
         $this->assertNull($tree->find(27));
         $this->assertEquals(7, $tree->find(7)->data());
     }
+
+    public function testInsert(): void
+    {
+        $tree = new BinaryTree();
+        $node = $tree->insert(3);
+        $this->assertSame($tree->root(), $node);
+
+        $node = $tree->insert(5);
+        $this->assertSame($tree->root()->left(), $node);
+
+        $node = $tree->insert(1);
+        $this->assertSame($tree->root()->right(), $node);
+
+        $node = $tree->insert(15);
+        $this->assertSame($tree->root()->left()->left(), $node);
+
+        $node = $tree->insert(9);
+        $this->assertSame($tree->root()->left()->right(), $node);
+
+        $this->assertEquals([3, 5, 15, 9, 1], (new BinaryTreePreOrderIterator($tree->root()))->toArray());
+        $this->assertEquals([15, 5, 9, 3, 1], (new BinaryTreeInOrderIterator($tree->root()))->toArray());
+        $this->assertEquals([15, 9, 5, 1, 3], (new BinaryTreePostOrderIterator($tree->root()))->toArray());
+        $this->assertEquals([3, 5, 1, 15, 9], (new BinaryTreeLevelOrderIterator($tree->root()))->toArray());
+    }
 }

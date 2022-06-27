@@ -1,17 +1,25 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
- */
+declare(strict_types=1);
 
 namespace Ekati\Contract;
 
+use Ekati\Contract\DataInterface;
+
 /**
+ * A structure capable of inserting new elements
  *
- * @author dev
+ * @template T
+ * @author Theodoros Papadopoulos
  */
 interface InserterInterface
 {
-    //put your code here
+    /**
+     *
+     * @param mixed $value the value to insert
+     * @phpstan-param T $value
+     * @return DataInterface
+     * @phpstan-return DataInterface<T>
+     */
+    public function insert(mixed $value): DataInterface;
 }

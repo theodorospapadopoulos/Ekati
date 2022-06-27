@@ -90,6 +90,23 @@ abstract class BinaryTreeAbstractIterator implements BinaryTreeIterator
         return $this->current;
     }
 
+    /**
+     * Create an array representation of the tree
+     *
+     * @return array
+     * @phpstan-return array<T>
+     */
+    public function toArray(): array
+    {
+        $elements = [];
+        $this->traverse(function (BinaryTreeNode $node) use (&$elements) {
+            $elements[] = $node->data();
+            return true;
+        });
+
+        return $elements;
+    }
+
     abstract public function next(): void;
 
     /**
