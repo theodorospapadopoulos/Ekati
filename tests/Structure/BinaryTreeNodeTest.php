@@ -22,13 +22,13 @@ class BinaryTreeNodeTest extends TestCase
     /**
      *
      * @phpstan-var BinaryTreeNode<int>
-     * @var BinaryTree
+     * @var BinaryTreeNode
      */
     private $tree;
 
     protected function setUp(): void
     {
-        $this->tree = new BinaryTree(1);
+        $this->tree = new BinaryTreeNode(1);
         $this->tree->setLeft(
             (new BinaryTreeNode(2))
                 ->setLeft(new BinaryTreeNode(4))
@@ -143,5 +143,33 @@ class BinaryTreeNodeTest extends TestCase
         });
 
         $this->assertEquals($expected, $elements);
+    }
+
+    public function testFindMinimum(): void
+    {
+        $tree = new BinaryTree();
+        $this->assertNull($tree->min());
+
+        $tree->attach($this->tree);
+        $this->assertEquals(1, $tree->min()->data());
+    }
+
+    public function testFindMaximum(): void
+    {
+        $tree = new BinaryTree();
+        $this->assertNull($tree->max());
+
+        $tree->attach($this->tree);
+        $this->assertEquals(10, $tree->max()->data());
+    }
+
+    public function testFindValue(): void
+    {
+        $tree = new BinaryTree();
+        $this->assertNull($tree->find(4));
+
+        $tree->attach($this->tree);
+        $this->assertNull($tree->find(27));
+        $this->assertEquals(7, $tree->find(7)->data());
     }
 }
