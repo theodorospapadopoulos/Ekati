@@ -23,8 +23,8 @@ interface FinderInterface
      * @phpstan-param T $value
      * @param ?\Closure $compare
      * @phstan-param \Closure(T,T):int|null $compare
-     * @return mixed
+     * @return ?DataInterface
      * @phpstan-return ?DataInterface<T>
      */
-    public function find($value, ?\Closure $compare = null): mixed;
+    public function find($value, ?\Closure $compare = null): ?DataInterface;
 }

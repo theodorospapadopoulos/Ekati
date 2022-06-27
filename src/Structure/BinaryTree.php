@@ -61,10 +61,10 @@ class BinaryTree implements MinInterface, MaxInterface, FinderInterface
      *
      * @param ?\Closure $compare
      * @phstan-param \Closure(T,T):int|null $compare
-     * @return mixed
+     * @return ?BinaryTreeNode
      * @phpstan-return ?BinaryTreeNode<T>
      */
-    public function min(?\Closure $compare = null): mixed
+    public function min(?\Closure $compare = null): ?BinaryTreeNode
     {
         if ($this->root === null) {
             return null;
@@ -97,10 +97,10 @@ class BinaryTree implements MinInterface, MaxInterface, FinderInterface
      *
      * @param ?\Closure $compare
      * @phstan-param \Closure(T,T):int|null $compare
-     * @return mixed
+     * @return ?BinaryTreeNode
      * @phpstan-return ?BinaryTreeNode<T>
      */
-    public function max(?\Closure $compare = null): mixed
+    public function max(?\Closure $compare = null): ?BinaryTreeNode
     {
         if ($this->root === null) {
             return null;
@@ -133,10 +133,10 @@ class BinaryTree implements MinInterface, MaxInterface, FinderInterface
      * @phpstan-param T $value
      * @param ?\Closure $compare
      * @phstan-param \Closure(T,T):int|null $compare
-     * @return mixed
+     * @return ?BinaryTreeNode
      * @phpstan-return ?BinaryTreeNode<T>
      */
-    public function find($value, ?\Closure $compare = null): mixed
+    public function find($value, ?\Closure $compare = null): ?BinaryTreeNode
     {
         if ($this->root === null) {
             return null;

@@ -21,8 +21,8 @@ interface MaxInterface
      *
      * @param ?\Closure $compare
      * @phstan-param \Closure(T,T):int|null $compare
-     * @return mixed
+     * @return ?DataInterface
      * @phpstan-return ?DataInterface<T>
      */
-    public function max(?\Closure $compare = null): mixed;
+    public function max(?\Closure $compare = null): ?DataInterface;
 }

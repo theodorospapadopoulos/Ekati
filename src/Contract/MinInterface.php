@@ -21,8 +21,8 @@ interface MinInterface
      *
      * @param ?\Closure $compare
      * @phstan-param \Closure(T,T):int|null $compare
-     * @return mixed
+     * @return ?DataInterface
      * @phpstan-return ?DataInterface<T>
      */
-    public function min(?\Closure $compare = null): mixed;
+    public function min(?\Closure $compare = null): ?DataInterface;
 }
