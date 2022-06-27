@@ -6,6 +6,7 @@ namespace Tests\Iterator;
 
 use PHPUnit\Framework\TestCase;
 use Ekati\Structure\BinaryTreeNode;
+use Ekati\Structure\BinaryTree;
 use Ekati\Iterator\BinaryTreePreOrderIterator;
 use Ekati\Iterator\BinaryTreeInOrderIterator;
 use Ekati\Iterator\BinaryTreePostOrderIterator;
@@ -21,13 +22,13 @@ class BinaryTreeNodeTest extends TestCase
     /**
      *
      * @phpstan-var BinaryTreeNode<int>
-     * @var BinaryTreeNode
+     * @var BinaryTree
      */
     private $tree;
 
     protected function setUp(): void
     {
-        $this->tree = new BinaryTreeNode(1);
+        $this->tree = new BinaryTree(1);
         $this->tree->setLeft(
             (new BinaryTreeNode(2))
                 ->setLeft(new BinaryTreeNode(4))
@@ -44,6 +45,12 @@ class BinaryTreeNodeTest extends TestCase
                         ->setRight(new BinaryTreeNode(10))
                 )
         );
+    }
+
+    public function testStructure(): void
+    {
+        $this->assertSame($this->tree->left()->parent(), $this->tree);
+        $this->assertSame($this->tree->right()->parent(), $this->tree);
     }
 
     public function testPreOrderTraversal(): void

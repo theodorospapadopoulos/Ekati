@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Ekati\Structure;
 
+use Ekati\Contract\DataInterface;
+use Ekati\Iterator\BinaryTreeLevelOrderIterator;
+
 /**
  * Implementation of a generic Binary Tree Node
  *
  * @template T
+ * @implements DataInterface<T>
  * @author Theodoros Papadopoulos
  */
-class BinaryTreeNode
+class BinaryTreeNode implements DataInterface
 {
     /**
      * Holds the node's data
@@ -19,6 +23,14 @@ class BinaryTreeNode
      * @var mixed
      */
     private $data;
+
+    /**
+     * The node's parent
+     *
+     * @phpstan-var BinaryTreeNode<T>|null
+     * @var BinaryTreeNode|null
+     */
+    private ?BinaryTreeNode $parent;
 
     /**
      * The node's left child
@@ -36,10 +48,18 @@ class BinaryTreeNode
      */
     private ?BinaryTreeNode $right;
 
-
-    public function __construct(mixed $data)
+    /**
+     * Constructor
+     *
+     * @phpstan-param T $data
+     * @param mixed $data
+     * @phpstan-param BinaryTreeNode<T>|null $parent
+     * @param BinaryTreeNode|null $parent
+     */
+    public function __construct(mixed $data, ?BinaryTreeNode $parent = null)
     {
         $this->data = $data;
+        $this->parent = $parent;
         $this->left = null;
         $this->right = null;
     }
@@ -53,6 +73,17 @@ class BinaryTreeNode
     public function data(): mixed
     {
         return $this->data;
+    }
+
+    /**
+     * Get the parent node
+     *
+     * @phpstan-return BinaryTreeNode<T>|null
+     * @return BinaryTreeNode|null
+     */
+    public function parent(): ?BinaryTreeNode
+    {
+        return $this->parent;
     }
 
     /**
@@ -91,6 +122,19 @@ class BinaryTreeNode
     }
 
     /**
+     * Attach node to a parent node
+     *
+     * @phpstan-param BinaryTreeNode<T>|null $parent
+     * @param BinaryTreeNode|null $parent
+     * @return static
+     */
+    public function setParent(?BinaryTreeNode $parent): static
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
      * Alter the left child
      *
      * @phpstan-param BinaryTreeNode<T>|null $left
@@ -100,6 +144,7 @@ class BinaryTreeNode
     public function setLeft(?BinaryTreeNode $left): static
     {
         $this->left = $left;
+        $left?->setParent($this);
         return $this;
     }
 
@@ -113,6 +158,7 @@ class BinaryTreeNode
     public function setRight(?BinaryTreeNode $right): static
     {
         $this->right = $right;
+        $right?->setParent($this);
         return $this;
     }
 }
