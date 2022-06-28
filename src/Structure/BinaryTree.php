@@ -10,6 +10,7 @@ use Ekati\Contract\MinInterface;
 use Ekati\Contract\MaxInterface;
 use Ekati\Contract\FinderInterface;
 use Ekati\Contract\InserterInterface;
+use Ekati\Contract\DeleterInterface;
 
 /**
  * Implementation of various algorithms concerning a BinaryTree
@@ -25,7 +26,8 @@ class BinaryTree implements
     MinInterface,
     MaxInterface,
     FinderInterface,
-    InserterInterface
+    InserterInterface,
+    DeleterInterface
 {
     /**
      * The root node of the tree
@@ -213,5 +215,76 @@ class BinaryTree implements
         });
 
         return $newNode;
+    }
+
+    /**
+     *
+     * @param mixed $value the value to insert
+     * @phpstan-param T $value
+     * @param ?\Closure $compare
+     * @phstan-param \Closure(T,T):int|null $compare
+     * @return void
+     */
+    public function delete(mixed $value, ?\Closure $compare = null): void
+    {
+        $delNode = $this->find($value, $compare);
+        if ($delNode === null) {
+            return;
+        }
+
+        $deepestNode = $this->deepestNode();
+        if ($delNode !== $deepestNode) {
+            $delNode->setData($deepestNode?->data());
+        }
+
+        $this->deleteLeaf($deepestNode);
+    }
+
+    /**
+     * Find the deepest node in the tree (lower right node)
+     *
+     * @return BinaryTreeNode|null
+     * @phpstan-return BinaryTreeNode<T>|null
+
+     */
+    protected function deepestNode(): ?BinaryTreeNode
+    {
+        if ($this->root === null) {
+            return null;
+        }
+
+        $deepestNode = $this->root;
+        $iterator = new BinaryTreeLevelOrderIterator($this->root);
+        $iterator->traverse(function (BinaryTreeNode $node) use (&$deepestNode) {
+            $deepestNode = $node;
+            return true;
+        });
+
+        return $deepestNode;
+    }
+
+    /**
+     * Remove a leaf node
+     *
+     * @param BinaryTreeNode $node
+     * @phpstan-param BinaryTreeNode<T> $node
+     * @return void
+     */
+    protected function deleteLeaf(?BinaryTreeNode $node): void
+    {
+        if ($node !== null) {
+            $parent = $node->parent();
+            if ($parent !== null) {
+                if ($parent->left() === $node) {
+                    $parent->setLeft(null);
+                }
+
+                if ($parent->right() === $node) {
+                    $parent->setRight(null);
+                }
+            }
+
+            unset($node);
+        }
     }
 }

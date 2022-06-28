@@ -196,4 +196,29 @@ class BinaryTreeNodeTest extends TestCase
         $this->assertEquals([15, 9, 5, 1, 3], (new BinaryTreePostOrderIterator($tree->root()))->toArray());
         $this->assertEquals([3, 5, 1, 15, 9], (new BinaryTreeLevelOrderIterator($tree->root()))->toArray());
     }
+
+    public function testDelete(): void
+    {
+        $iterator = new BinaryTreeLevelOrderIterator($this->tree);
+        $tree = new BinaryTree($this->tree);
+
+        $tree->delete(15);
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], $iterator->toArray());
+
+        $tree->delete(10);
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 8, 9], $iterator->toArray());
+
+        $tree->delete(5);
+        $this->assertEquals([1, 2, 3, 4, 9, 6, 7, 8], $iterator->toArray());
+
+        $tree->delete(1);
+        $this->assertEquals([8, 2, 3, 4, 9, 6, 7], $iterator->toArray());
+
+        $tree->delete(6);
+        $this->assertEquals([8, 2, 3, 4, 9, 7], $iterator->toArray());
+        
+        $tree->delete(2);
+        $this->assertEquals([8, 7, 3, 4, 9], $iterator->toArray());
+
+    }
 }
